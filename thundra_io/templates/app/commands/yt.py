@@ -2,7 +2,7 @@ import asyncio
 from pathlib import Path
 from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
-from neonize.types import InteractiveMessage
+from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import InteractiveMessage
 from pydantic import BaseModel, Field
 from thundra_io.button import create_button_message, ListButtonV2, RowV2, create_carousel_message
 from thundra_io.command import Command, command
