@@ -27,7 +27,7 @@ To get started with Thundra, follow these steps:
 1. **Installation**: Install Thundra via pip:
 
     ```
-    pip install thundra-ai
+    pip install thundra-io
     ```
 
 2. **Configuration**: Set up your WhatsApp account credentials and other configurations in the `thundra.toml` file.
