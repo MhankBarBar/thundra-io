@@ -9,7 +9,7 @@
 import os
 import importlib.metadata
 
-project = "thundra-ai"
+project = "thundra-io"
 copyright = "2024, krypton-byte"
 author = "krypton-byte"
 release = importlib.metadata.version("thundra-ai")
@@ -20,7 +20,7 @@ sys.path.insert(0, Path(os.getcwd()).parent.parent.__str__())
 import os
 
 os.environ["IGNORE_WORKDIR"] = "1"
-import thundra
+import thundra_io
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
