@@ -1,7 +1,7 @@
-thundra
-=======
+thundra_io
+==========
 
 .. toctree::
    :maxdepth: 4
 
-   thundra
+   thundra_io

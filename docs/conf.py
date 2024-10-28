@@ -12,7 +12,7 @@ import importlib.metadata
 project = "thundra-io"
 copyright = "2024, krypton-byte"
 author = "krypton-byte"
-release = importlib.metadata.version("thundra-ai")
+release = importlib.metadata.version("thundra-io")
 import sys
 from pathlib import Path
 
