@@ -1,5 +1,5 @@
-from thundra.agents import agent
-from neonize.client import NewClient
+from thundra_io.agents import agent
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import (
     ExtendedTextMessage,
@@ -7,29 +7,29 @@ from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import (
     VideoMessage,
     StickerMessage,
 )
-from thundra.utils import download_media, get_user_id
+from thundra_io.utils import download_media, get_user_id
 from neonize.utils.enum import MediaType
-from thundra.storage import storage
-from thundra.core import chat_model, memory
+from thundra_io.storage import storage
+from thundra_io.core import chat_model, memory
 from langchain.tools import tool
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
 
 @agent.tool(str, ExtendedTextMessage, ImageMessage, VideoMessage)
-def sticker(client: NewClient, message: Message):
+def sticker(client: NewAClient, message: Message):
     @tool("stickerMaker", return_direct=True)
-    def sticker(file_id: str):
+    async def sticker(file_id: str):
         'usefull to create sticker from Image, query input must be file_id from last of message or "" if not have'
         buf_file = None
         try:
-            buf_file = download_media(
+            buf_file = await download_media(
                 client, message.Message, (ImageMessage, VideoMessage, StickerMessage)
             )
         except Exception as e:
             user_id = get_user_id(message)
             if file_id:
-                buf_file = storage.get_file(user_id, file_id).download(
+                buf_file = await storage.get_file(user_id, file_id).download(
                     client, MediaType.MediaImage
                 )
             else:
@@ -37,7 +37,7 @@ def sticker(client: NewClient, message: Message):
                     user_id, (ImageMessage, VideoMessage, StickerMessage)
                 ):
                     if file:
-                        buf_file = file.download(
+                        buf_file = await file.download(
                             client,
                             (
                                 MediaType.MediaImage
@@ -48,7 +48,7 @@ def sticker(client: NewClient, message: Message):
         if not buf_file:
             return "anda belum mengirimkan gambar/video"
         if buf_file:
-            client.send_sticker(message.Info.MessageSource.Chat, buf_file)
+            await client.send_sticker(message.Info.MessageSource.Chat, buf_file)
             return "Sticker Berhasil Di Upload"
         else:
             return "File Tidak ditemukan"
@@ -57,9 +57,9 @@ def sticker(client: NewClient, message: Message):
 
 
 @agent.tool()
-def remove_context(client: NewClient, message: Message):
+def remove_context(client: NewAClient, message: Message):
     @tool("ResetChat")
-    def execute(query: str):
+    async def execute(query: str):
         'ResetChat empowers you to reset your ongoing conversation or seamlessly transition to a new topic., query input must be new topik or "" if not have'
         user_id = get_user_id(message)
         memory.clear_history(user_id)

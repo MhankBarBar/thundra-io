@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 from typing import List
 import zipfile
@@ -200,11 +201,13 @@ def main():
                 for attr in dirs.split(".")[1:]:
                     app = getattr(app, attr)
                 if parse.phone_number:
-                    app.__getattribute__(client).PairPhone(
+                    coro = app.__getattribute__(client).PairPhone(
                         parse.phone_number, parse.push_notification
                     )
                 else:
-                    app.__getattribute__(client).connect()
+                    coro = app.__getattribute__(client).connect()
+                loop = asyncio.get_event_loop()
+                loop.run_until_complete(coro)
         case "plugin":
             from .plugins import PluginSource, Plugin
 

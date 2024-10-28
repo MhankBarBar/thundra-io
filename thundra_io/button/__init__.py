@@ -8,9 +8,9 @@ from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import (
     MessageContextInfo,
 )
 
-from thundra.button.v1 import CopyButton, ListButton, QuickReply, Row, Section
-from thundra.button.registry import button_registry
-from thundra.button.v2 import ListButtonV2, QuickReplyV2, RowV2, SectionV2
+from .v1 import CopyButton, ListButton, QuickReply, Row, Section
+from .registry import button_registry
+from .v2 import ListButtonV2, QuickReplyV2, RowV2, SectionV2
 
 Button = QuickReply | ListButton | CopyButton | QuickReplyV2 | ListButtonV2
 

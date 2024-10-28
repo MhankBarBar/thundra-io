@@ -5,6 +5,7 @@ from types import NoneType
 import json
 import time
 from typing import (
+    Awaitable,
     Callable,
     Dict,
     Generic,
@@ -14,7 +15,7 @@ from typing import (
     Type,
 )
 
-from neonize import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from pydantic import BaseModel, Field
 from .types import _ParamsButtonEvent
@@ -24,7 +25,7 @@ from .v2 import SectionV2, quick_reply, list_button
 
 class ButtonEventData(BaseModel, Generic[_ParamsButtonEvent]):
     id: str = Field()
-    on_click: Callable[[_ParamsButtonEvent], None] = Field()
+    on_click: Callable[[_ParamsButtonEvent], Awaitable[None]] = Field()
     expiration: datetime = Field()
     params_type: Optional[Type[_ParamsButtonEvent]] = Field(default=None)
 
@@ -45,7 +46,7 @@ class ButtonRegistry(Dict[str, ButtonEventData]):
     def add(self, button: ButtonEventData):
         self[button.id] = button
 
-    def click(self, client: NewClient, from_message: Message):
+    async def click(self, client: NewAClient, from_message: Message):
         message = from_message.Message
         if message.HasField("interactiveResponseMessage"):
             response = message.interactiveResponseMessage.nativeFlowResponseMessage
@@ -106,7 +107,7 @@ class ButtonRegistry(Dict[str, ButtonEventData]):
                             for section in sections_data:
                                 for row in section.rows:
                                     if row.id == js["id"]:
-                                        section.on_click(
+                                        await section.on_click(
                                             client, from_message, row.params
                                         )
         elif message.HasField("templateButtonReplyMessage"):
@@ -124,7 +125,7 @@ class ButtonRegistry(Dict[str, ButtonEventData]):
                 model = quick_reply[selected["id"].split("_", 1)[1]].model_validate(
                     selected
                 )
-                model.on_click(client, from_message, model.params)
+                await model.on_click(client, from_message, model.params)
             elif message.templateButtonReplyMessage.selectedID.startswith(
                 "quickreplyv1"
             ):
@@ -135,10 +136,10 @@ class ButtonRegistry(Dict[str, ButtonEventData]):
                 )
                 button_class = self[selected["id"]]
                 if button_class.params_type in [None, NoneType]:
-                    button_class.on_click()
+                    await button_class.on_click()
                 else:
                     params = button_class.params_type.model_validate(selected["params"])
-                    button_class.on_click(params)
+                    await button_class.on_click(params)
 
 
 button_registry = ButtonRegistry()

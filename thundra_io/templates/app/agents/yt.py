@@ -1,15 +1,14 @@
 from pytube import YouTube, Search
-from thundra.agents import agent
+from thundra_io.agents import agent
 from langchain.tools import tool
 from neonize.utils.ffmpeg import FFmpeg
-from thundra.utils import convert_size
-from neonize.client import NewClient
+from thundra_io.utils import convert_size
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import ExtendedTextMessage
 from pytube import Search, YouTube, Stream
 import os
 import tempfile
-
 
 def parse_duration(time: int):
     hours = time // 60**2
@@ -27,9 +26,9 @@ def search_music_yt(query: str) -> str:
 
 
 @agent.tool(str, ExtendedTextMessage)
-def SearchYT(client: NewClient, message: Message):
+def SearchYT(client: NewAClient, message: Message):
     @tool("SearchMusicFromYT")
-    def youtube_search(query: str):
+    async def youtube_search(query: str):
         "Empower to search music from youtube"
         return search_music_yt(query)
 
@@ -37,15 +36,15 @@ def SearchYT(client: NewClient, message: Message):
 
 
 @agent.tool(str, ExtendedTextMessage)
-def YoutubeMusicDownloader(client: NewClient, message: Message):
+def YoutubeMusicDownloader(client: NewAClient, message: Message):
     @tool("YoutubeMusicDownloader")
-    def youtube_music_downloader(url: str):
+    async def youtube_music_downloader(url: str):
         "Empower to download music from youtube by youtube url"
         selected: Stream = YouTube(url).streams.filter(type="audio").order_by("abr")[0]
         file = selected.download(tempfile.gettempdir())
         with FFmpeg(file) as music:
             audio = music.to_mp3()
-            client.send_audio(
+            await client.send_audio(
                 message.Info.MessageSource.Chat, file=audio, quoted=message
             )
         os.remove(file)

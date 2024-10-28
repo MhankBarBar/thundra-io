@@ -12,7 +12,6 @@ import glob
 import shutil
 from .workdir import workdir, config_toml
 from .profiler import VirtualEnv
-
 root = Path(appdirs.user_data_dir("thundra"))
 extract_path = VirtualEnv.get_env().activate(workdir.workspace.__str__()).env
 

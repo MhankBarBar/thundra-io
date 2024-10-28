@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "thundra-ai"
+name = "thundra-io"
 version = "0.1.0"
 description = "Neonize Abstraction"
 authors = ["krypton-byte <rosid6434@gmail.com>"]
 license = "Apache 2.0"
 readme = "README.md"
-packages = [{include="thundra"}]
+packages = [{include="thundra_io"}]
 include=[
     "assets/logo.jpg"
 ]
@@ -16,7 +16,7 @@ keywords = ["neonize", "whatsapp", "framework", "websocket", "bot"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-neonize = "^0.1.14"
+neonize = "^0.3.1"
 pytube = "^15.0.0"
 langchain = "^0.1.11"
 tomli-w = "^1.0.0"
@@ -24,7 +24,7 @@ langchain-openai = "^0.0.8"
 graphviz = "^0.20.1"
 appdirs = "^1.4.4"
 cachetools = "^5.3.3"
-
+youtube-dl = {git = "https://github.com/ytdl-org/youtube-dl"}
 [tool.poetry.group.dev.dependencies]
 watchfiles = "^0.22.0"
 
@@ -38,7 +38,7 @@ furo = "^2024.5.6"
 
 [[tool.poetry.source]]
 name = "thundra-ai"
-url = "https://github.com/krypton-byte/thundra"
+url = "https://github.com/krypton-byte/thundra-io"
 priority = "primary"
 
 
@@ -51,4 +51,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-thundra = "thundra.cli:main"
+thundra-io = "thundra_io.cli:main"

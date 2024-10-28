@@ -1,12 +1,13 @@
 from langchain.agents import AgentExecutor, initialize_agent
-from neonize.client import NewClient
+from langchain.agents.agent_types import AgentType
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from .utils import get_message_type
 from .agents import agent
 from .core.llm import chat_model
 
 
-def execute_agent(memory, client: NewClient, message: Message) -> AgentExecutor:
+def execute_agent(memory, client: NewAClient, message: Message) -> AgentExecutor:
     """
     Execute an agent based on the incoming message.
 
@@ -26,7 +27,7 @@ def execute_agent(memory, client: NewClient, message: Message) -> AgentExecutor:
         for tool in agent.filter_tools(get_message_type(message.Message).__class__)
     ]
     return initialize_agent(
-        agent="chat-conversational-react-description",
+        agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
         tools=tools,
         llm=chat_model.llm,
         verbose=True,

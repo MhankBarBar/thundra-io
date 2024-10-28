@@ -1,4 +1,4 @@
-from neonize.client import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from .utils import log
 from typing import Generator, Type, Optional
@@ -15,8 +15,8 @@ class Middleware(ABC):
             self.name = self.__class__.__name__
 
     @abstractmethod
-    def run(
-        self, client: NewClient, message: Message
+    async def run(
+        self, client: NewAClient, message: Message
     ) -> (
         None | bool
     ):  # None -> continue, False -> global command will run after Middleware, True -> global command never execute
@@ -48,7 +48,7 @@ class MiddlewareRegister(list[Middleware], Graph):
         for middleware in self:
             yield middleware.name.__str__()
 
-    def execute(self, client: NewClient, message: Message) -> None | Middleware:
+    async def execute(self, client: NewAClient, message: Message) -> None | Middleware:
         """
         This method executes each middleware in the current instance with the provided client and message.
         If a middleware's run method returns True and its stop attribute is set to True, the method will return that middleware and no further middlewares or global commands will be executed.
@@ -56,14 +56,14 @@ class MiddlewareRegister(list[Middleware], Graph):
         If the run method returns None, it will continue to the next middleware.
 
         :param client: The client that the middleware will be executed with.
-        :type client: NewClient
+        :type client: NewAClient
         :param message: The message that the middleware will process.
         :type message: Message
         :return: The middleware that stopped the execution, if any. If no middleware stopped the execution, returns None.
         :rtype: None | Middleware
         """
         for middleware in self:
-            status = middleware.run(client, message)
+            status = await middleware.run(client, message)
             if status and middleware.stop:
                 return middleware
 

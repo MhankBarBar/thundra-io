@@ -1,38 +1,40 @@
+import asyncio
 from pathlib import Path
 from langchain_openai import ChatOpenAI
-from neonize.client import DeviceProps, NewClient
+from neonize.client import DeviceProps
+from neonize.aioze.client import NewAClient
 from neonize.events import MessageEv, ConnectedEv
 import yaml
 from neonize.utils.jid import Jid2String, JIDToNonAD
-from thundra.chain import execute_agent
-from thundra.storage import storage, File
-from thundra.profiler import Profile, Profiler
-from thundra.types import MediaMessageType, MessageWithContextInfoType
-from thundra.core.memory import memory
-from thundra.utils import ChainMessage, get_tag, get_user_id, get_message_type
-from thundra.middleware import middleware
-from thundra.core import chat_model
-from thundra.button import button_registry
+from thundra_io.chain import execute_agent
+from thundra_io.storage import storage, File
+from thundra_io.profiler import Profile, Profiler
+from thundra_io.types import MediaMessageType, MessageWithContextInfoType
+from thundra_io.core.memory import memory
+from thundra_io.utils import ChainMessage, get_tag, get_user_id, get_message_type
+from thundra_io.middleware import middleware
+from thundra_io.core import chat_model
+from thundra_io.button import button_registry
 from neonize.events import event
 import signal
 
 # evaluate all module
-from thundra.evaluater import evaluate_module
+from thundra_io.evaluater import evaluate_module
 
 evaluate_module(Path(__file__).parent / "commands")
 evaluate_module(Path(__file__).parent / "middleware")
 evaluate_module(Path(__file__).parent / "agents")
-from thundra.command import command
-from thundra.workdir import workdir, config_toml
+from thundra_io.command import command
+from thundra_io.workdir import workdir, config_toml
 
-app = NewClient(
+app = NewAClient(
     config_toml["thundra"]["db"],
-    DeviceProps(
+    props=DeviceProps(
         os=config_toml["thundra"]["name"], platformType=DeviceProps.PlatformType.SAFARI
     ),
 )
 
-signal.signal(signal.SIGINT, lambda *_: event.set())
+# signal.signal(signal.SIGINT, lambda *_: event.set())
 
 # set your llm here
 # example:
@@ -40,8 +42,8 @@ signal.signal(signal.SIGINT, lambda *_: event.set())
 
 
 @app.event(ConnectedEv)
-def connected(client: NewClient, connect: ConnectedEv):
-    me = app.get_me()
+async def connected(client: NewAClient, connect: ConnectedEv):
+    me = await app.get_me()
     me_jid = me.JID
     if workdir.workspace_dir.__str__() == workdir.db.__str__():
         Profiler.add_profile(
@@ -71,12 +73,12 @@ def save_to_storage(message: MessageEv):
 
 
 @app.event(MessageEv)
-def on_message(client: NewClient, message: MessageEv):
-    r = middleware.execute(client, message)
+async def on_message(client: NewAClient, message: MessageEv):
+    r = await middleware.execute(client, message)
     if r in [False, None]:
-        cmd = command.execute(client, message)
+        cmd = await command.execute(client, message)
         if not cmd:
-            button_registry.click(client, message)
+            await button_registry.click(client, message)
         if not cmd and chat_model.available:
             save_to_storage(message)
             chat = message.Info.MessageSource.Chat
@@ -84,20 +86,21 @@ def on_message(client: NewClient, message: MessageEv):
             context = memory.get_memory(get_user_id(message))
             if sender.User == chat.User:
                 yamlx = yaml.dump(ChainMessage(message.Message, message).to_json())
-                client.send_message(
+                await client.send_message(
                     chat,
-                    execute_agent(context, client, message).invoke(yamlx)["output"],
+                    (await execute_agent(context, client, message).ainvoke(yamlx))["output"],
                 )
             elif client.my_tag in get_tag(message.Message):
                 save_to_storage(message)
                 yamlx = yaml.dump(
                     ChainMessage(message.Message, message).to_json()
                 ).replace(f"@{client.my_number}".strip(), "")
-                client.reply_message(
-                    execute_agent(context, client, message).invoke(yamlx)["output"],
+                await client.reply_message(
+                    (await execute_agent(context, client, message).ainvoke(yamlx))["output"],
                     quoted=message,
                 )
 
 
 if __name__ == "__main__":
-    app.connect()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(app.connect())

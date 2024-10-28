@@ -3,6 +3,7 @@ from datetime import timedelta, datetime
 import time
 import secrets
 from typing import (
+    Awaitable,
     Callable,
     Dict,
     Generic,
@@ -25,7 +26,7 @@ class EmptyParams(BaseModel):
 class QuickReply(BaseModel, Generic[_ParamsButtonEvent]):
     display_text: str = Field()
     params: _ParamsButtonEvent = Field(default=EmptyParams())
-    on_click: Callable[[_ParamsButtonEvent], None] | Callable[[], None]
+    on_click: Callable[[_ParamsButtonEvent], Awaitable[None]] | Callable[[], Awaitable[None]]
     expiration: datetime = Field(
         default_factory=lambda: datetime.now() + timedelta(hours=1)
     )
@@ -72,7 +73,7 @@ class Row(BaseModel, Generic[_ParamsButtonEvent]):
         id: str,
         idx: int,
         expiration: datetime,
-        on_click: Callable[[_ParamsButtonEvent], None],
+        on_click: Callable[[_ParamsButtonEvent], Awaitable[None]],
     ) -> Dict:
         if on_click:
             if idx == 0:

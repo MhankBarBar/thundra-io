@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, ABCMeta, abstractclassmethod, abstractmethod
 import json
 from typing import ClassVar, Dict, Generic, List, NewType, Self, Type, TypeVar
-from neonize import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import InteractiveMessage
 from pydantic import BaseModel, Field
@@ -28,8 +28,8 @@ class QuickReplyV2(ABC, BaseModel, Generic[_ParamsButtonEvent], EventType):
     params: _ParamsButtonEvent = Field(default=EmptyParams())
 
     @abstractmethod
-    def on_click(
-        self, client: NewClient, message: Message, params: _ParamsButtonEvent
+    async def on_click(
+        self, client: NewAClient, message: Message, params: _ParamsButtonEvent
     ) -> None: ...
 
     def __init_subclass__(cls) -> None:
@@ -73,7 +73,7 @@ class SectionV2(ABC, BaseModel, Generic[_ParamsButtonEvent], EventType):
     highlight_label: str = Field()
 
     @abstractmethod
-    def on_click(self, client: NewClient, message: Message, param: _ParamsButtonEvent):
+    async def on_click(self, client: NewAClient, message: Message, param: _ParamsButtonEvent):
         raise NotImplementedError()
 
     def __init_subclass__(cls) -> None:

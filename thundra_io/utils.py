@@ -2,7 +2,7 @@ from sys import prefix
 import tomllib
 from typing import Any, Dict, Iterable, List, Optional, Type
 from enum import Enum
-from neonize import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import (
     ImageMessage,
     Message as MessageProto,
@@ -156,9 +156,9 @@ def get_tag(message: MessageProto) -> List[str]:
     """
     for _, value in message.ListFields():
         try:
-            return value.contextInfo.mentionedJid
-        except Exception:
-            pass
+            return value.contextInfo.mentionedJID
+        except Exception as e:
+            print(value, e)
     return []
 
 
@@ -219,8 +219,8 @@ class MediaTypeToMMS(Enum):
     #     }.get(magic.from_buffer())
 
 
-def download_media(
-    client: NewClient,
+async def download_media(
+    client: NewAClient,
     message: MessageProto,
     types: Iterable[Type[MessageType]] | Type[MessageType],
 ) -> bytes | None:
@@ -228,7 +228,7 @@ def download_media(
     Downloads media from a message if it matches the specified types.
 
     :param client: The client used for downloading.
-    :type client: NewClient
+    :type client: NewAClient
     :param message: The message containing the media.
     :type message: MessageProto
     :param types: The types of media to download.
@@ -242,11 +242,11 @@ def download_media(
     else:
         types_tuple = tuple(types)
     if isinstance(media_message, types_tuple):
-        return client.download_any(message)
+        return await client.download_any(message)
     else:
         quoted = get_message_type(media_message.contextInfo.quotedMessage)
         if isinstance(quoted, types_tuple):
-            return client.download_any(media_message.contextInfo.quotedMessage)
+            return await client.download_any(media_message.contextInfo.quotedMessage)
 
 
 def convert_size(size_bytes: int) -> str:

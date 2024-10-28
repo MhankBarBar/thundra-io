@@ -1,12 +1,13 @@
+import asyncio
 from pathlib import Path
-from neonize.client import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from neonize.types import InteractiveMessage
 from pydantic import BaseModel, Field
-from thundra.button import create_button_message, ListButtonV2, RowV2, create_carousel_message
-from thundra.command import Command, command
-from thundra.utils import ChainMessage
-from thundra.button.v2 import ListButtonV2, QuickReplyV2, RowV2, SectionV2
+from thundra_io.button import create_button_message, ListButtonV2, RowV2, create_carousel_message
+from thundra_io.command import Command, command
+from thundra_io.utils import ChainMessage
+from thundra_io.button.v2 import ListButtonV2, QuickReplyV2, RowV2, SectionV2
 from concurrent.futures import ThreadPoolExecutor
 from pytube import Search, YouTube
 import sys
@@ -31,17 +32,17 @@ class VideoYT(BaseModel):
 class AudioSection(SectionV2[AudioYT]):
     event_id = "audio_section"
 
-    def on_click(self, client: NewClient, message: Message, param: AudioYT):
-        client.send_audio(message.Info.MessageSource.Chat, param.url)
+    async def on_click(self, client: NewAClient, message: Message, param: AudioYT):
+        await client.send_audio(message.Info.MessageSource.Chat, param.url)
 
 
 class VideoSection(SectionV2[VideoYT]):
     event_id = "video_section"
 
-    def on_click(self, client: NewClient, message: Message, param: VideoYT):
-        client.send_video(message.Info.MessageSource.Chat, param.url)
+    async def on_click(self, client: NewAClient, message: Message, param: VideoYT):
+        await client.send_video(message.Info.MessageSource.Chat, param.url)
 
-def send_video_download_list(client: NewClient, message: Message, url: str):
+async def send_video_download_list(client: NewAClient, message: Message, url: str):
     yt = YouTube(url)
     stream = yt.streams
     audio_button = [
@@ -68,8 +69,8 @@ def send_video_download_list(client: NewClient, message: Message, url: str):
         )
         for i in stream.filter(type="video")
     ]
-    msg = client.build_image_message(yt.thumbnail_url)
-    client.send_message(
+    msg = await client.build_image_message(yt.thumbnail_url)
+    await client.send_message(
         message.Info.MessageSource.Chat,
         create_button_message(
             InteractiveMessage(
@@ -99,9 +100,9 @@ def send_video_download_list(client: NewClient, message: Message, url: str):
         ),
     )
 @command.register(Command("yt"))
-def yt(client: NewClient, message: Message):
+async def yt(client: NewAClient, message: Message):
     url = ChainMessage.extract_text(message.Message)[3:].strip()
-    send_video_download_list(client, message, url)
+    await send_video_download_list(client, message, url)
 
 
 class VideoMetadata(BaseModel):
@@ -109,27 +110,35 @@ class VideoMetadata(BaseModel):
 
 class GetItem(QuickReplyV2[VideoMetadata]):
     event_id= "get_video"
-    def on_click(self, client: NewClient, message: Message, params: VideoMetadata) -> None:
-        send_video_download_list(
+    async def on_click(self, client: NewAClient, message: Message, params: VideoMetadata) -> None:
+        await send_video_download_list(
             client, message, params.url
         )
 
 
 
 @command.register(Command("ytsearch"))
-def yt_search(client: NewClient, message: Message):
+async def yt_search(client: NewAClient, message: Message):
+    if message.Info.MessageSource.Chat.User != message.Info.MessageSource.Sender.User:
+        await client.send_message(message.Info.MessageSource.Chat, "Tidak bisa digunakan dalam grup")
+        return
     query = ChainMessage.extract_text(message.Message)[9:].strip()
     search = Search(query)
-    def create_card(yt: YouTube):
+    async def create_card(yt: YouTube):
+        print('yt', yt)
+        try:
+            length = yt.length
+        except TypeError:
+            length = 0
         return create_button_message(
             InteractiveMessage(
                 header=InteractiveMessage.Header(
-                    imageMessage=client.build_image_message(yt.thumbnail_url).imageMessage,
+                    imageMessage=(await client.build_image_message(yt.thumbnail_url)).imageMessage,
                     title=yt.title,
                     subtitle='',
                     hasMediaAttachment=True
                 ),
-                body=InteractiveMessage.Body(text=f"{yt.title}\nduration: {parse_duration(yt.length)}\ndescription: {yt.description}"),
+                body=InteractiveMessage.Body(text=f"{yt.title}\nduration: {parse_duration(length)}\ndescription: {yt.description}"),
                 footer=InteractiveMessage.Footer(text=yt.author)
             ),
             [
@@ -142,15 +151,10 @@ def yt_search(client: NewClient, message: Message):
             ],
             direct_send=False
         )
-    cards = []
     results = search.results
-    if results:
-        with ThreadPoolExecutor(max_workers=5) as th:
-            for item in th.map(create_card, results[:5]):
-                cards.append(
-                    item
-                )
-        client.send_message(
+    cards = await asyncio.gather(*[create_card(i) for i in (results or [])[:5]])
+    if cards:
+        await client.send_message(
             message.Info.MessageSource.Chat,
             create_carousel_message(
                 InteractiveMessage(
@@ -160,7 +164,7 @@ def yt_search(client: NewClient, message: Message):
             )
         )
     else:
-        client.reply_message(
+        await client.reply_message(
             "Video tidak ditemukan",
             message
         )

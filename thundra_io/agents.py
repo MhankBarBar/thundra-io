@@ -1,7 +1,7 @@
-from neonize.client import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 
-from typing import Callable, Any, Type, Generator, Sequence
+from typing import Awaitable, Callable, Any, Type, Generator, Sequence
 from dataclasses import dataclass
 
 from .core.graph import Graph
@@ -16,11 +16,11 @@ class Agent:
 
     Attributes:
         message_types (Sequence[Type[MessageType]]): The message types that the agent can handle.
-        agent (Callable[[NewClient, Message], Any]): The function to be executed by the agent.
+        agent (Callable[[NewAClient, Message], Any]): The function to be executed by the agent.
     """
 
     message_types: Sequence[Type[MessageType]]
-    agent: Callable[[NewClient, Message], Any]
+    agent: Callable[[NewAClient, Message], Any]
 
 
 class AgentRegister(list[Agent], Graph):
@@ -63,17 +63,17 @@ class AgentRegister(list[Agent], Graph):
 
     def tool(
         self, *message_types: Type[MessageType]
-    ) -> Callable[[Callable[[NewClient, Message], Callable[[str], str]]], None]:
+    ) -> Callable[[Callable[[NewAClient, Message], Callable[[str], Awaitable[str]]]], None]:
         """
         Decorator to register an agent with specific message types.
 
         :param message_types: The message types the agent can handle.
         :type message_types: Type[MessageType]
         :return: A decorator to register the agent function.
-        :rtype: Callable[[Callable[[NewClient, Message], Callable[[str], str]]], None]
+        :rtype: Callable[[Callable[[NewAClient, Message], Callable[[str], str]]], None]
         """
 
-        def tool_agent(f: Callable[[NewClient, Message], Callable[[str], str]]) -> None:
+        def tool_agent(f: Callable[[NewAClient, Message], Callable[[str], Awaitable[str]]]) -> None:
             log.debug(f"{f.__name__} agent loaded")
             self.append(Agent(message_types=message_types, agent=f))
 

@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import (
     Any,
+    Awaitable,
     Callable,
     Generator,
     Sequence,
@@ -14,7 +15,7 @@ from typing import (
     Union,
 )
 from .core.graph import Graph
-from neonize.client import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from .utils import ChainMessage, log
 from .types import MessageType as IMessageType
@@ -35,10 +36,10 @@ class Filter(ABC):
         return self
 
     @abstractmethod
-    def filter(self, client: NewClient, message: Message) -> bool: ...
+    async def filter(self, client: NewAClient, message: Message) -> bool: ...
 
-    def _filter(self, client: NewClient, message: Message):
-        result = self.filter(client, message)
+    async def _filter(self, client: NewAClient, message: Message):
+        result = await self.filter(client, message)
         if self.invert:
             return not result
         return result
@@ -54,13 +55,13 @@ class FilterOP(Filter):
     right: Filter
     invert: bool
 
-    def filter(self, client: NewClient, message: Message) -> bool:
-        left = self.left._filter(client, message)
+    async def filter(self, client: NewAClient, message: Message) -> bool:
+        left = await self.left._filter(client, message)
         if self.invert:
             left = not left
         if self.op == OP.OR and left:
             return True
-        return getattr(left, self.op.value)(self.right._filter(client, message))
+        return getattr(left, self.op.value)(await self.right._filter(client, message))
 
     def __repr__(self):
         if self.op == OP.AND:
@@ -98,10 +99,10 @@ class CommandFunc:
     name: str
     filter: Filter | FilterOP
     description: str
-    func: Callable[[NewClient, Message]]
+    func: Callable[[NewAClient, Message], Awaitable[None]]
     category: Sequence[str]
     allow_broadcast: bool
-    on_error: Optional[Union[str, Callable[[NewClient, Message, Exception], None]]] = (
+    on_error: Optional[Union[str, Callable[[NewAClient, Message, Exception], Awaitable[None]]]] = (
         None
     )
 
@@ -157,7 +158,7 @@ class GlobalCommand(dict[str, CommandFunc], Graph):
         self.update({self.generate_name(self.start_point): command})
         self.start_point += 1
 
-    def execute(self, client: NewClient, message: Message) -> bool:
+    async def execute(self, client: NewAClient, message: Message) -> bool:
         """
         Execute the appropriate command based on the given message.
 
@@ -174,14 +175,14 @@ class GlobalCommand(dict[str, CommandFunc], Graph):
                 v.allow_broadcast
                 or not message.Info.MessageSource.Chat.User == "broadcast"
             ):
-                if v.filter.filter(client, message):
+                if await v.filter.filter(client, message):
                     try:
-                        v.func(client, message)
+                        await v.func(client, message)
                     except Exception as e:
                         if isinstance(v.on_error, str):
-                            client.reply_message(message.Message, message)
+                            await client.reply_message(message.Message, message)
                         elif v.on_error and callable(v.on_error):
-                            v.on_error(client, message, e)
+                            await v.on_error(client, message, e)
                         else:
                             raise e
                     return True
@@ -195,10 +196,10 @@ class GlobalCommand(dict[str, CommandFunc], Graph):
         category: Sequence[str] = ["all"],
         allow_broadcast: bool = False,
         on_error: Optional[
-            Union[str, Callable[[NewClient, Message, Exception], None]]
+            Union[str, Callable[[NewAClient, Message, Exception], Awaitable[None]]]
         ] = None,
     ) -> Callable[
-        [Callable[[NewClient, Message], Any]], Callable[[NewClient, Message], Any]
+        [Callable[[NewAClient, Message], Awaitable[Any]]], Callable[[NewAClient, Message], Awaitable[Any]]
     ]:
         """
         Register a new command with the provided parameters.
@@ -220,8 +221,8 @@ class GlobalCommand(dict[str, CommandFunc], Graph):
         """
 
         def command(
-            f: Callable[[NewClient, Message], Any],
-        ) -> Callable[[NewClient, Message], Any]:
+            f: Callable[[NewAClient, Message], Awaitable[Any]],
+        ) -> Callable[[NewAClient, Message], Awaitable[Any]]:
             log.debug(f"{name} command loaded")
             self.add(
                 CommandFunc(
@@ -260,7 +261,7 @@ class Command(Filter):
         self.alt_prefix = prefix
         super().__init__()
 
-    def filter(self, client: NewClient, message: Message) -> bool:
+    async def filter(self, client: NewAClient, message: Message) -> bool:
         """
         Checks whether the provided message starts with the command this instance represents.
 
@@ -294,7 +295,7 @@ class MessageType(Filter):
         """
         self.types = types
 
-    def filter(self, client: NewClient, message: Message) -> bool:
+    async def filter(self, client: NewAClient, message: Message) -> bool:
         """Filter messages based on their types.
 
         :param client: The client object.
@@ -322,7 +323,7 @@ class MessageType(Filter):
 
 
 class Owner(Filter):
-    def filter(self, client: NewClient, message: Message) -> bool:
+    async def filter(self, client: NewAClient, message: Message) -> bool:
         """Filter messages based on whether the sender is the owner.
 
         :param client: The client object.

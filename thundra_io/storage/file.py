@@ -1,7 +1,7 @@
 from ..types import MediaMessageType
 from typing import Iterable, Optional, Generator
 from dataclasses import dataclass
-from neonize.client import NewClient
+from neonize.aioze.client import NewAClient
 from neonize.utils.enum import MediaType
 
 
@@ -67,7 +67,7 @@ class File:
             type=type(message),
         )
 
-    def download(self, client: NewClient, mediatype: MediaType) -> bytes:
+    async def download(self, client: NewAClient, mediatype: MediaType) -> bytes:
         """
         Download the file using the provided client and media type.
 
@@ -78,7 +78,7 @@ class File:
         :return: The downloaded file as bytes.
         :rtype: bytes
         """
-        return client.download_media_with_path(
+        return await client.download_media_with_path(
             direct_path=self.directPath,
             enc_file_hash=self.fileEncSHA256,
             file_hash=self.fileSHA256,
