@@ -1,0 +1,551 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="thundra_io package" href="thundra_io.html" /><link rel="prev" title="Welcome to thundra’s documentation!" href="../index.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>thundra_io - thundra-io 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">thundra-io 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">thundra-io 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">thundra_io</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of thundra_io</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="thundra_io.html">thundra_io package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of thundra_io package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.button.html">thundra_io.button package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.core.html">thundra_io.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.profiler.html">thundra_io.profiler package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.storage.html">thundra_io.storage package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/source/modules.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="thundra-io">
+<h1>thundra_io<a class="headerlink" href="#thundra-io" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="thundra_io.html">thundra_io package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.button.html">thundra_io.button package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.button.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.button.html#module-thundra_io.button.registry">thundra_io.button.registry module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.button.html#module-thundra_io.button.types">thundra_io.button.types module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.button.html#module-thundra_io.button.v1">thundra_io.button.v1 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.button.html#module-thundra_io.button.v2">thundra_io.button.v2 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.button.html#module-thundra_io.button">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.core.html">thundra_io.core package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.core.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.core.html#module-thundra_io.core.graph">thundra_io.core.graph module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.core.html#module-thundra_io.core.llm">thundra_io.core.llm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.core.html#module-thundra_io.core.memory">thundra_io.core.memory module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.core.html#module-thundra_io.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.profiler.html">thundra_io.profiler package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.profiler.html#module-thundra_io.profiler">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.storage.html">thundra_io.storage package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.storage.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.storage.html#module-thundra_io.storage.file">thundra_io.storage.file module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.storage.html#module-thundra_io.storage">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.agents">thundra_io.agents module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.agents.Agent"><code class="docutils literal notranslate"><span class="pre">Agent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.agents.Agent.message_types"><code class="docutils literal notranslate"><span class="pre">Agent.message_types</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.agents.Agent.agent"><code class="docutils literal notranslate"><span class="pre">Agent.agent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id0"><code class="docutils literal notranslate"><span class="pre">Agent.agent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id1"><code class="docutils literal notranslate"><span class="pre">Agent.message_types</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.agents.AgentRegister"><code class="docutils literal notranslate"><span class="pre">AgentRegister</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.agents.AgentRegister.get_all_names"><code class="docutils literal notranslate"><span class="pre">AgentRegister.get_all_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.agents.AgentRegister.filter_tools"><code class="docutils literal notranslate"><span class="pre">AgentRegister.filter_tools()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id2"><code class="docutils literal notranslate"><span class="pre">AgentRegister.get_all_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.agents.AgentRegister.tool"><code class="docutils literal notranslate"><span class="pre">AgentRegister.tool()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.chain">thundra_io.chain module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.chain.execute_agent"><code class="docutils literal notranslate"><span class="pre">execute_agent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.cli">thundra_io.cli module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.command">thundra_io.command module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.Command"><code class="docutils literal notranslate"><span class="pre">Command</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.Command.filter"><code class="docutils literal notranslate"><span class="pre">Command.filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc"><code class="docutils literal notranslate"><span class="pre">CommandFunc</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.name"><code class="docutils literal notranslate"><span class="pre">CommandFunc.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.filter"><code class="docutils literal notranslate"><span class="pre">CommandFunc.filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.description"><code class="docutils literal notranslate"><span class="pre">CommandFunc.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.func"><code class="docutils literal notranslate"><span class="pre">CommandFunc.func</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.category"><code class="docutils literal notranslate"><span class="pre">CommandFunc.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.allow_broadcast"><code class="docutils literal notranslate"><span class="pre">CommandFunc.allow_broadcast</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.CommandFunc.on_error"><code class="docutils literal notranslate"><span class="pre">CommandFunc.on_error</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id3"><code class="docutils literal notranslate"><span class="pre">CommandFunc.allow_broadcast</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id4"><code class="docutils literal notranslate"><span class="pre">CommandFunc.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id5"><code class="docutils literal notranslate"><span class="pre">CommandFunc.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id6"><code class="docutils literal notranslate"><span class="pre">CommandFunc.filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id7"><code class="docutils literal notranslate"><span class="pre">CommandFunc.func</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id8"><code class="docutils literal notranslate"><span class="pre">CommandFunc.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id9"><code class="docutils literal notranslate"><span class="pre">CommandFunc.on_error</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.Filter.filter"><code class="docutils literal notranslate"><span class="pre">Filter.filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.Filter.invert"><code class="docutils literal notranslate"><span class="pre">Filter.invert</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.FilterOP"><code class="docutils literal notranslate"><span class="pre">FilterOP</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.FilterOP.filter"><code class="docutils literal notranslate"><span class="pre">FilterOP.filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.FilterOP.left"><code class="docutils literal notranslate"><span class="pre">FilterOP.left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.FilterOP.op"><code class="docutils literal notranslate"><span class="pre">FilterOP.op</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.FilterOP.right"><code class="docutils literal notranslate"><span class="pre">FilterOP.right</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand"><code class="docutils literal notranslate"><span class="pre">GlobalCommand</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand.start_point"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.start_point</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand.add"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand.execute"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand.generate_name"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.generate_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand.get_all_names"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.get_all_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.GlobalCommand.register"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#id10"><code class="docutils literal notranslate"><span class="pre">GlobalCommand.start_point</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.MessageType"><code class="docutils literal notranslate"><span class="pre">MessageType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.MessageType.filter"><code class="docutils literal notranslate"><span class="pre">MessageType.filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.OP"><code class="docutils literal notranslate"><span class="pre">OP</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.OP.AND"><code class="docutils literal notranslate"><span class="pre">OP.AND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.OP.OR"><code class="docutils literal notranslate"><span class="pre">OP.OR</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.command.Owner"><code class="docutils literal notranslate"><span class="pre">Owner</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.command.Owner.filter"><code class="docutils literal notranslate"><span class="pre">Owner.filter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.config">thundra_io.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.config.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Config.owner"><code class="docutils literal notranslate"><span class="pre">Config.owner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Config.prefix"><code class="docutils literal notranslate"><span class="pre">Config.prefix</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir"><code class="docutils literal notranslate"><span class="pre">Workdir</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.config"><code class="docutils literal notranslate"><span class="pre">Workdir.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.config_format"><code class="docutils literal notranslate"><span class="pre">Workdir.config_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.config_path"><code class="docutils literal notranslate"><span class="pre">Workdir.config_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.db"><code class="docutils literal notranslate"><span class="pre">Workdir.db</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.db_workspace"><code class="docutils literal notranslate"><span class="pre">Workdir.db_workspace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.find"><code class="docutils literal notranslate"><span class="pre">Workdir.find()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.get_config"><code class="docutils literal notranslate"><span class="pre">Workdir.get_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.read_config"><code class="docutils literal notranslate"><span class="pre">Workdir.read_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.workspace"><code class="docutils literal notranslate"><span class="pre">Workdir.workspace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.workspace_dir"><code class="docutils literal notranslate"><span class="pre">Workdir.workspace_dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.config.Workdir.write_config_toml"><code class="docutils literal notranslate"><span class="pre">Workdir.write_config_toml()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.evaluater">thundra_io.evaluater module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.evaluater.evaluate_module"><code class="docutils literal notranslate"><span class="pre">evaluate_module()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.middleware">thundra_io.middleware module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.Middleware"><code class="docutils literal notranslate"><span class="pre">Middleware</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.Middleware.name"><code class="docutils literal notranslate"><span class="pre">Middleware.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.Middleware.run"><code class="docutils literal notranslate"><span class="pre">Middleware.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.Middleware.stop"><code class="docutils literal notranslate"><span class="pre">Middleware.stop</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.MiddlewareRegister"><code class="docutils literal notranslate"><span class="pre">MiddlewareRegister</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.MiddlewareRegister.add"><code class="docutils literal notranslate"><span class="pre">MiddlewareRegister.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.MiddlewareRegister.execute"><code class="docutils literal notranslate"><span class="pre">MiddlewareRegister.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.middleware.MiddlewareRegister.get_all_names"><code class="docutils literal notranslate"><span class="pre">MiddlewareRegister.get_all_names()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.plugins">thundra_io.plugins module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin"><code class="docutils literal notranslate"><span class="pre">Plugin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.author"><code class="docutils literal notranslate"><span class="pre">Plugin.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.dependencies"><code class="docutils literal notranslate"><span class="pre">Plugin.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.find_by_author"><code class="docutils literal notranslate"><span class="pre">Plugin.find_by_author()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.find_by_author_and_name"><code class="docutils literal notranslate"><span class="pre">Plugin.find_by_author_and_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.find_full_args"><code class="docutils literal notranslate"><span class="pre">Plugin.find_full_args()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.get_all_plugins"><code class="docutils literal notranslate"><span class="pre">Plugin.get_all_plugins()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.includes"><code class="docutils literal notranslate"><span class="pre">Plugin.includes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.name"><code class="docutils literal notranslate"><span class="pre">Plugin.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.path"><code class="docutils literal notranslate"><span class="pre">Plugin.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.repo_name"><code class="docutils literal notranslate"><span class="pre">Plugin.repo_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.sha"><code class="docutils literal notranslate"><span class="pre">Plugin.sha</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.stringify"><code class="docutils literal notranslate"><span class="pre">Plugin.stringify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.uninstall"><code class="docutils literal notranslate"><span class="pre">Plugin.uninstall()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Plugin.version"><code class="docutils literal notranslate"><span class="pre">Plugin.version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginDirType"><code class="docutils literal notranslate"><span class="pre">PluginDirType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginDirType.dirs"><code class="docutils literal notranslate"><span class="pre">PluginDirType.dirs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginDirType.type"><code class="docutils literal notranslate"><span class="pre">PluginDirType.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginSource"><code class="docutils literal notranslate"><span class="pre">PluginSource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginSource.branch"><code class="docutils literal notranslate"><span class="pre">PluginSource.branch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginSource.download_from_sha"><code class="docutils literal notranslate"><span class="pre">PluginSource.download_from_sha()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginSource.download_head"><code class="docutils literal notranslate"><span class="pre">PluginSource.download_head()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginSource.get_last_commit_sha"><code class="docutils literal notranslate"><span class="pre">PluginSource.get_last_commit_sha()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginSource.latest_version"><code class="docutils literal notranslate"><span class="pre">PluginSource.latest_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginZip"><code class="docutils literal notranslate"><span class="pre">PluginZip</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginZip.get_info"><code class="docutils literal notranslate"><span class="pre">PluginZip.get_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginZip.install"><code class="docutils literal notranslate"><span class="pre">PluginZip.install()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginZip.install_dependencies"><code class="docutils literal notranslate"><span class="pre">PluginZip.install_dependencies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.PluginZip.install_extract"><code class="docutils literal notranslate"><span class="pre">PluginZip.install_extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.plugins.Response404"><code class="docutils literal notranslate"><span class="pre">Response404</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.test">thundra_io.test module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.test.ptree"><code class="docutils literal notranslate"><span class="pre">ptree()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.test.tree_test"><code class="docutils literal notranslate"><span class="pre">tree_test()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.types">thundra_io.types module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.utils">thundra_io.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage"><code class="docutils literal notranslate"><span class="pre">ChainMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage.extract_text"><code class="docutils literal notranslate"><span class="pre">ChainMessage.extract_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage.message"><code class="docutils literal notranslate"><span class="pre">ChainMessage.message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage.neonize_message"><code class="docutils literal notranslate"><span class="pre">ChainMessage.neonize_message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage.text"><code class="docutils literal notranslate"><span class="pre">ChainMessage.text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage.to_json"><code class="docutils literal notranslate"><span class="pre">ChainMessage.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.ChainMessage.type"><code class="docutils literal notranslate"><span class="pre">ChainMessage.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaAppState"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaAppState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaAudio"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaAudio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaDocument"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaDocument</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaHistory"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaHistory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaImage"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaImage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaLinkThumbnail"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaLinkThumbnail</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="thundra_io.html#thundra_io.utils.MediaTypeToMMS.MediaVideo"><code class="docutils literal notranslate"><span class="pre">MediaTypeToMMS.MediaVideo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.convert_size"><code class="docutils literal notranslate"><span class="pre">convert_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.download_media"><code class="docutils literal notranslate"><span class="pre">download_media()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.get_message_type"><code class="docutils literal notranslate"><span class="pre">get_message_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.get_tag"><code class="docutils literal notranslate"><span class="pre">get_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.get_user_id"><code class="docutils literal notranslate"><span class="pre">get_user_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="thundra_io.html#thundra_io.utils.hidder"><code class="docutils literal notranslate"><span class="pre">hidder()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io.workdir">thundra_io.workdir module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thundra_io.html#module-thundra_io">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="thundra_io.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">thundra_io package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, krypton-byte
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>
