@@ -35,8 +35,8 @@ To get started with Thundra, follow these steps:
 3. **Create a Bot**: Write your bot logic using the Thundra framework. Here's a simple example:
 
     ```bash
-    > thundra create
-    > thundra run
+    > thundra-io create
+    > thundra-io run
     ```
 
 4. **Deploy**: Deploy your bot to your preferred hosting environment. Thundra is compatible with various deployment options, including cloud platforms and self-hosted servers.
