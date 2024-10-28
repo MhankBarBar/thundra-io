@@ -1,4 +1,4 @@
-## <p align="center">Thundra</p>
+## <p align="center">Thundra AsyncIO</p>
 [![Label](https://img.shields.io/badge/WHATSAPP-AUTOMATION-20B2AA?style=for-the-badge&logo=whatsapp)]()
 [![Label](https://img.shields.io/badge/AGENT-LANGCHAIN-20B2AA?style=for-the-badge&logo=openai)]()
 [![Label](https://img.shields.io/badge/whatsmeow-wrapper-20B2AA?style=for-the-badge&logo=go)]()
