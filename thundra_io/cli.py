@@ -150,13 +150,16 @@ def main():
                     print("$ pip install thundra-ai[dev]")
                     sys.exit(1)
                 cmd = sys.orig_argv.copy()
-                cmd.remove("--dev")
-                if "--verbose" not in cmd:
-                    cmd.append("--verbose")
+                cmd[0] = sys.executable
+                if any(" " in part for part in cmd):
+                    cmd_str = shlex.join(cmd)
+                else:
+                    cmd_str = " ".join(cmd)
+
                 watchfiles.run_process(
                     ".",
                     watch_filter=lambda _, file: file.endswith(".py"),
-                    target=shlex.join(cmd),
+                    target=cmd_str,
                 )
             else:
                 from .profiler import Profiler, VirtualEnv

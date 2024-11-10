@@ -6,7 +6,7 @@ from thundra_io.utils import convert_size
 from neonize.aioze.client import NewAClient
 from neonize.proto.Neonize_pb2 import Message
 from neonize.proto.waE2E.WAWebProtobufsE2E_pb2 import ExtendedTextMessage
-from pytube import Search, YouTube, Stream
+from pytubefix import Search, YouTube, Stream
 import os
 import tempfile
 
@@ -20,7 +20,7 @@ def parse_duration(time: int):
 def search_music_yt(query: str) -> str:
     data = 'anda harus mengirimkannya secara eksplisit dan keseluruhan tidak hanya official saja dan tambahkan pesan "jika ingin mendownload anda bisa mereply sesuai nomer yg ingin di download"\n\n'
     video: YouTube
-    for index, video in enumerate(Search(query).results or [], 1):
+    for index, video in enumerate(Search(query).videos or [], 1):
         data += f"""{index}. {video.title}\n  author: {video.author}\n  durasi: {parse_duration(video.length)}\n  link: {video.watch_url}\n"""
     return data
 

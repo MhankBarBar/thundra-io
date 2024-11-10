@@ -9,7 +9,7 @@ from thundra_io.command import Command, command
 from thundra_io.utils import ChainMessage
 from thundra_io.button.v2 import ListButtonV2, QuickReplyV2, RowV2, SectionV2
 from concurrent.futures import ThreadPoolExecutor
-from pytube import Search, YouTube
+from pytubefix import Search, YouTube
 import sys
 sys.path.insert(0, Path(__file__).parent.parent.__str__())
 from agents.yt import convert_size, parse_duration
@@ -151,7 +151,7 @@ async def yt_search(client: NewAClient, message: Message):
             ],
             direct_send=False
         )
-    results = search.results
+    results = search.videos
     cards = await asyncio.gather(*[create_card(i) for i in (results or [])[:5]])
     if cards:
         await client.send_message(
