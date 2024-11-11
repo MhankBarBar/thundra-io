@@ -151,6 +151,9 @@ def main():
                     sys.exit(1)
                 cmd = sys.orig_argv.copy()
                 cmd[0] = sys.executable
+                cmd.remove("--dev")
+                if "--verbose" not in cmd:
+                    cmd.append("--verbose")
                 if any(" " in part for part in cmd):
                     cmd_str = shlex.join(cmd)
                 else:
